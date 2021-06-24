@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/control_obra/php/pago.php" method="POST" enctype="multipart/form-data">
+            <h2>Pago</h2>
+        Concepto:<input name="concepto" type="text" size="70" maxlength="70"> <br>
+        Monto <input name="monto" type="number" size="70" maxlength="70"> <br>
+        Fecha  <input name="fecha" type="date" size="70" maxlength="70"> <br>
+        Documento de pago:<input name="file" type="file" ><br>
+        Seleccionar Cliente: <input name="cliente" type="number" size="70" maxlength="70"> <br>
+        Seleccionar Cotizacion: <input name="cotizacion" type="number" size="70" maxlength="70"> <br>
+        <p class="center"><input type="submit" value="Subir Archivo"></p>
+
+                        
+    </form>
+</body>
+</html>
