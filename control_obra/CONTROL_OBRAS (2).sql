@@ -2,6 +2,14 @@ CREATE DATABASE IF NOT EXISTS ctrl_obra;
 
 USE ctrl_obra;
 
+CREATE TABLE data_entities (
+	iddata_entities INT PRIMARY KEY AUTO_INCREMENT,
+	calle VARCHAR (80) NOT NULL, 
+	colonia VARCHAR (45) NOT NULL, 
+	municipio VARCHAR (100) NOT NULL, 
+	estado  VARCHAR (50) NOT NULL, 
+	statusd  VARCHAR (45) NOT NULL
+);
 
 -- Tabla Clientes 
 CREATE TABLE cliente (
@@ -12,7 +20,11 @@ CREATE TABLE cliente (
 	telefono  VARCHAR(10) NOT NULL,
 	correo_e  VARCHAR(25) NOT NULL,
 	fecha_registro DATE NOT NULL,
-	direccion VARCHAR(255) NOT NULL,
+	iddata_entities INT, 
+	FOREIGN KEY (iddata_entities)
+		REFERENCES data_entities(iddata_entities)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
 	UNIQUE (correo_e)
 );
 
@@ -22,7 +34,11 @@ CREATE TABLE responsable (
 	apellidos VARCHAR(60) NOT NULL,
 	correo_e  VARCHAR(45) NOT NULL,
 	telefono  VARCHAR(10) NOT NULL,
-	direccion VARCHAR(255) NOT NULL,
+	iddata_entities INT, 
+	FOREIGN KEY (iddata_entities)
+		REFERENCES data_entities(iddata_entities)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
 	UNIQUE (correo_e),
 	UNIQUE (telefono)
 );
@@ -31,9 +47,13 @@ CREATE TABLE responsable (
 CREATE TABLE proveedor_material (
 	rfc_proveedor VARCHAR(13) PRIMARY KEY,
 	razon_social  VARCHAR(70) NOT NULL,
-	direccion VARCHAR(255) NOT NULL,
 	correo_e  VARCHAR(45) NOT NULL,
 	telefono  VARCHAR(10) NOT NULL,
+	iddata_entities INT, 
+	FOREIGN KEY (iddata_entities)
+		REFERENCES data_entities(iddata_entities)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
 	UNIQUE (correo_e),
 	UNIQUE (telefono)
 );
@@ -57,11 +77,15 @@ CREATE TABLE obra (
 	fecha_registro DATE NOT NULL,
 	avance         SMALLINT(3) NOT NULL, 
 	tipo_obra      VARCHAR(100) NOT NULL,
-	ubicacion      VARCHAR(255) NOT NULL,
 	fecha_inicio   DATE NOT NULL,
 	fecha_fin      DATE NOT NULL,
 	idcliente      INT,
 	idresponsable  INT,
+	iddata_entities INT, 
+	FOREIGN KEY (iddata_entities)
+		REFERENCES data_entities(iddata_entities)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
 	FOREIGN KEY (idcliente)
 		REFERENCES cliente(idcliente)
 			ON DELETE CASCADE 
@@ -72,6 +96,18 @@ CREATE TABLE obra (
 			ON UPDATE CASCADE
 );
 
+CREATE TABLE avance (
+	idavance INT PRIMARY KEY AUTO_INCREMENT,
+	fecha DATE NOT NULL,
+	observaciones VARCHAR(255) NOT NULL,
+	avance INT NOT NULL,
+	idobra INT,
+	FOREIGN KEY (idobra)
+		REFERENCES obra(idobra)
+		ON DELETE CASCADE 
+		ON UPDATE CASCADE
+
+);
 CREATE TABLE cotizacion (
 	idcotizacion    INT PRIMARY KEY AUTO_INCREMENT,
 	tiempo_estimado VARCHAR(45) NOT NULL,
